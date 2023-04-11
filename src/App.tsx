@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, IconButton } from '@common'
+import useTheme from '@hooks/useTheme'
+import React from 'react'
+import { BsMoon, BsSun } from 'react-icons/bs'
+import { Outlet } from 'react-router-dom'
 
-function App() {
+const App: React.FC<React.ComponentProps<'div'>> = () => {
+  const { theme, toggleTheme } = useTheme()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Box
+      className={`flex justify-center items-center h-screen min-h-screen relative`}
+    >
+      <Outlet />
+      <IconButton
+        className={`bg-gray-300 dark:bg-gray-600 text-gray-900 absolute bottom-5 left-5 text-sm [&>svg]:text-gray-800 [&>svg]:dark:text-gray-200`}
+        onClick={() => toggleTheme()}
+      >
+        {theme === 'light' ? <BsMoon className="text-4xl" /> : <BsSun />}
+      </IconButton>
+    </Box>
+  )
 }
 
-export default App;
+export default App

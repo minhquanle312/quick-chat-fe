@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAuth from '@hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
 
 interface LoginPageProps extends React.HTMLAttributes<HTMLFormElement> {
   togglePage: () => void
@@ -20,7 +19,6 @@ const schema = yup.object().shape({
 })
 
 const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
-  const navigate = useNavigate()
   const { login } = useAuth()
 
   const {
@@ -31,9 +29,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = (data: any) => {
     login(data)
-    navigate('/chat', { replace: true })
   }
 
   return (

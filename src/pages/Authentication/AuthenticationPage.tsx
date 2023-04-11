@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import { Box, Typography } from '@common'
+import { useState } from 'react'
 import LoginPage from './LoginPage'
 import SignUpPage from './SignUpPage'
-import { Box, Typography } from '@common'
+import useAuth from '@/hooks/useAuth'
+import { Navigate } from 'react-router-dom'
 
 const AuthenticationPage = () => {
   const [page, setPage] = useState('login')
+  const { accessToken } = useAuth()
 
   const togglePage = () => {
     setPage((prev) => (prev === 'login' ? 'signUp' : 'login'))
@@ -15,6 +18,7 @@ const AuthenticationPage = () => {
       <Typography component="h3" className="text-3xl font-semibold text-center">
         {page === 'login' ? 'Login' : 'Sign Up'}
       </Typography>
+      {accessToken && <Navigate to="/chat" replace={true} />}
       {page === 'login' ? (
         <LoginPage togglePage={togglePage} />
       ) : (

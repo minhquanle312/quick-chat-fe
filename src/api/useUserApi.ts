@@ -1,4 +1,5 @@
-import useAxiosPrivate from '@hooks/useAxiosPrivate'
+// import useAxiosPrivate from '@hooks/useAxiosPrivate'
+import { axiosPrivate } from './axios'
 
 type UserData = {
   data: []
@@ -12,7 +13,7 @@ interface UpdateUserBody {
 }
 
 const useUserApi = () => {
-  const axiosPrivate = useAxiosPrivate()
+  // const axiosPrivate = useAxiosPrivate()
 
   const updateCurrentUser = async (body: UpdateUserBody): Promise<UserData> => {
     const res = await axiosPrivate.patch(

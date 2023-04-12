@@ -20,6 +20,23 @@
     @apply bg-blue-500 dark:bg-violet-500;
   }
 
+  .left-menu-width {
+    /* @apply w-full sm:w-5/12  md:w-4/12 lg:w-3/12; */
+    @apply w-0 sm:w-5/12 md:w-4/12 lg:w-3/12 p-0 sm:px-3 transition-all duration-200;
+  }
+
+  .left-menu-width.tab-active {
+    @apply w-full sm:w-5/12 md:w-4/12 lg:w-3/12 px-3;
+  }
+
+  .right-menu-width {
+    @apply w-0 sm:w-7/12 md:w-8/12 lg:w-9/12 transition-all duration-200;
+  }
+
+  .right-menu-width.tab-active {
+    @apply w-full sm:w-7/12 md:w-8/12 lg:w-9/12;
+  }
+
   .h-chat-content {
     height: calc(100% - 72px);
   }
@@ -28,7 +45,7 @@
     overflow-y: auto;
   }
   .scroll-container::-webkit-scrollbar {
-    width: 8px;
+    @apply w-1 sm:w-2;
   }
   .scroll-container::-webkit-scrollbar-track {
     @apply bg-transparent;

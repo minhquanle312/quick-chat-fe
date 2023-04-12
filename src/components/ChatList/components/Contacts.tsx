@@ -34,8 +34,6 @@ const Contacts = ({ setMenuPage }: ContactsProps) => {
   })
   const [openAddContact, setOpenAddContact] = useState(false)
 
-  // console.log(currentChatsList.filter((chat: any) => !chat.isGroup))
-
   if (error) toast.error('Error when loading contacts')
 
   const handleCreateChat = (contactInfo: any) => {
@@ -74,15 +72,8 @@ const Contacts = ({ setMenuPage }: ContactsProps) => {
         },
       })
       .then((res) => {
-        console.log(res)
         navigate(`/chat/${res.data.id}`)
       })
-
-    // const isEqual =
-
-    // console.log(contactInfo, isEqual)
-    // console.log('chatListExisted', chatListExisted)
-    // console.log('membersForNewChat', membersForNewChat)
   }
 
   return (

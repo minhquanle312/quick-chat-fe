@@ -1,7 +1,7 @@
 /* eslint-disable no-self-compare */
 import useAuth from '@/hooks/useAuth'
 import useChatsApi from '@api/useChatsApi'
-import { IconButton, Spinner, Typography } from '@common'
+import { IconButton, Spinner } from '@common'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -14,14 +14,20 @@ import {
   selectConversation,
   setConversationData,
 } from '@/reducers/conversationSlice'
-import { MessageInterface } from '@/interface/global'
+import { ChatInterface, MessageInterface } from '@/interface/global'
+import MessageCard from './components/MessageCard'
+import { selectCurrContact } from '@/reducers/contactsSlice'
 
 const Chat: React.FC<React.ComponentProps<'div'>> = () => {
+  const { chatId } = useParams()
   const { userData } = useAuth()
   const dispatch = useAppDispatch()
   const conversation = useAppSelector((state) => selectConversation(state))
+  const currChat: ChatInterface | undefined = useAppSelector((state) =>
+    selectCurrContact(state, chatId)
+  )
+
   const { getConversation, createNewMessage } = useChatsApi()
-  const { chatId } = useParams()
 
   const messageRef = useRef<HTMLInputElement>(null)
   const latestMessage = useRef<HTMLDivElement>(null)
@@ -106,27 +112,18 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
     <>
       {!!error && 'An error has occurred'}
       <ChatHeader />
-      <div className="flex flex-col max-w-2xl mx-auto h-chat-content justify-end pb-5">
+      <div className="flex flex-col max-w-2xl mx-auto h-chat-content justify-end pb-5 px-2 sm:pl-0">
         <div className="flex flex-col gap-3 my-5 h-full scroll-container">
           {isLoading && (
             <Spinner overrideClass="[&>.loader:after]:bg-gray-300 [&>.loader:after]:dark:bg-gray-500" />
           )}
 
           {conversation?.map((chat: MessageInterface) => (
-            <Typography
-              key={chat?.id}
-              className={`${
-                userData && chat.sendUser === userData.id
-                  ? 'self-end'
-                  : 'self-start'
-              } max-w-[40%] px-2 py-1 rounded-lg bg-gray-400 dark:bg-gray-600`}
-            >
-              {chat?.content}
-            </Typography>
+            <MessageCard key={chat.id} data={chat} currChat={currChat} />
           ))}
           <div ref={latestMessage}></div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-2 sm:pr-0">
           <input
             ref={messageRef}
             type="text"

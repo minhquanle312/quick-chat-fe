@@ -14,7 +14,7 @@ const Avatar = ({ isImage, src, alt, name, size = 12 }: Props) => {
       {isImage ? (
         <img
           src={src}
-          alt={alt}
+          alt={alt || name}
           className={`w-${size} h-${size} rounded-full object-cover`}
         />
       ) : (

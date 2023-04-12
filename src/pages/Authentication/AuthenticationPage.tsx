@@ -7,7 +7,8 @@ import { Navigate } from 'react-router-dom'
 
 const AuthenticationPage = () => {
   const [page, setPage] = useState('login')
-  const { accessToken } = useAuth()
+  // const { accessToken } = useAuth()
+  const { userData } = useAuth()
 
   const togglePage = () => {
     setPage((prev) => (prev === 'login' ? 'signUp' : 'login'))
@@ -18,7 +19,7 @@ const AuthenticationPage = () => {
       <Typography component="h3" className="text-3xl font-semibold text-center">
         {page === 'login' ? 'Login' : 'Sign Up'}
       </Typography>
-      {accessToken && <Navigate to="/chat" replace={true} />}
+      {userData && <Navigate to="/chat" replace={true} />}
       {page === 'login' ? (
         <LoginPage togglePage={togglePage} />
       ) : (

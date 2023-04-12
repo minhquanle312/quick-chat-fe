@@ -1,6 +1,7 @@
 import { Typography } from '@/components/common'
 import React from 'react'
 import { BsArrowLeft } from 'react-icons/bs'
+import { useParams } from 'react-router-dom'
 
 const WrapperLeftMenu: React.FC<
   React.PropsWithChildren<{
@@ -9,8 +10,14 @@ const WrapperLeftMenu: React.FC<
     className?: string
   }>
 > = ({ children, setMenuPage, title, className = '' }) => {
+  const { chatId } = useParams()
+
   return (
-    <div className={`flex flex-col w-3/12 text-primary p-3 ${className}`}>
+    <div
+      className={`flex flex-col left-menu-width ${
+        !chatId ? 'tab-active' : ''
+      } text-primary p-3 ${className}`}
+    >
       <div className="flex items-center py-1 my-1 border-b border-gray-500">
         <div
           className="flex justify-center items-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full select-none"

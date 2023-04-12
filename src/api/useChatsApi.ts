@@ -1,4 +1,5 @@
-import useAxiosPrivate from '@hooks/useAxiosPrivate'
+// import useAxiosPrivate from '@hooks/useAxiosPrivate'
+import { axiosPrivate } from './axios'
 
 type ChatList = {
   data: []
@@ -11,7 +12,7 @@ interface Message {
 }
 
 const useChatsApi = () => {
-  const axiosPrivate = useAxiosPrivate()
+  // const axiosPrivate = useAxiosPrivate()
 
   const getChatList = async (): Promise<ChatList> => {
     const res = await axiosPrivate.get('/chats/getMyChats')

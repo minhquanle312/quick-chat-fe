@@ -23,7 +23,7 @@ interface UpdateInfoData {
 
 interface AuthContextType {
   userData: UserData | null
-  accessToken: string | null
+  // accessToken: string | null
   login: (data: LoginBody) => Promise<void>
   signUp: (data: SignUpBody) => Promise<void>
   verifyEmail: (emailToken: string) => Promise<void>
@@ -33,9 +33,7 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   userData: null,
-  accessToken: null,
-  // setUserData: () => {},
-  // setAccessToken: () => {},
+  // accessToken: null,
   login: async () => {},
   signUp: async () => {},
   verifyEmail: async () => {},
@@ -50,17 +48,17 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     'userData',
     null
   )
-  const [accessToken, setAccessToken] = useLocalStorage<string | null>(
-    'accessToken',
-    null
-  )
+  // const [accessToken, setAccessToken] = useLocalStorage<string | null>(
+  //   'accessToken',
+  //   null
+  // )
 
   const login = async (data: LoginBody): Promise<void> => {
     try {
       const res = await loginApi(data)
       const { email, id, name, role, avatar } = res.data.user
       setUserData({ name, id, role, email, avatar })
-      setAccessToken(res.token)
+      // setAccessToken(res.token)
     } catch (error: any) {
       return Promise.reject(error?.response?.data || error)
     }
@@ -79,7 +77,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
       const res = await verifyEmailApi(emailToken)
       const { email, id, name, role, avatar } = res.data.user
       setUserData({ name, id, role, email, avatar })
-      setAccessToken(res.token)
+      // setAccessToken(res.token)
     } catch (error) {
       console.log(error)
     }
@@ -87,7 +85,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const logout = () => {
     setUserData(null)
-    setAccessToken(null)
+    // setAccessToken(null)
   }
 
   const updateInfo = (data: UpdateInfoData) => {
@@ -104,7 +102,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const contextValue = {
     userData,
-    accessToken,
+    // accessToken,
     login,
     signUp,
     verifyEmail,

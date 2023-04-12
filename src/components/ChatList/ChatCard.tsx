@@ -2,7 +2,6 @@ import { UserInterface } from '@/interface/global'
 import { Avatar, Typography } from '@common'
 import useAuth from '@hooks/useAuth'
 import { formatDate } from '@utils/formatDate'
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 interface ChatCardProps {
@@ -42,19 +41,6 @@ const ChatCard = ({ data }: ChatCardProps) => {
           alt={isGroup ? name : otherMember[0].name}
           name={chatName}
         />
-        {/* <div>
-          {avatar || (!isGroup && otherMember[0]?.avatar) ? (
-            <img
-              src={isGroup ? avatar : otherMember[0]?.avatar}
-              alt={isGroup ? name : otherMember[0].name}
-              className="w-12 h-12 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full flex justify-center items-center bg-blue-500 text-white text-xl font-medium">
-              {chatName.slice(0, 1)}
-            </div>
-          )}
-        </div> */}
         <div className="flex-1">
           <div className="flex justify-between">
             <Typography className="font-normal">{chatName}</Typography>
@@ -66,7 +52,6 @@ const ChatCard = ({ data }: ChatCardProps) => {
           </div>
 
           <Typography className="text-sm text-gray-700 dark:text-gray-400">
-            {/* {latestMessage?.content || '...'} */}
             {latestMessage?.content}
           </Typography>
         </div>

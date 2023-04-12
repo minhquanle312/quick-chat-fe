@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { axiosPrivate } from '../api/axios'
-import useAuth from './useAuth'
+// import useAuth from './useAuth'
 
 const useAxiosPrivate = () => {
-  const { accessToken } = useAuth()
+  // const { accessToken } = useAuth()
+  const accessToken = 'dummy-token'
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(

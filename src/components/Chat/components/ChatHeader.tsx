@@ -4,32 +4,17 @@ import { selectCurrContact } from '@/reducers/contactsSlice'
 import { useAppSelector } from '@/store/hooks'
 import { Box, Typography } from '@common'
 import { RxDotsVertical } from 'react-icons/rx'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-// import useClickOutSide from '@/hooks/useClickOutSide'
-// import useGetElementCoords from '@/hooks/useGetElementCoords'
-// import Popover from '../common/Popover'
+import { BsArrowLeft } from 'react-icons/bs'
 
 const ChatHeader = () => {
   const { userData } = useAuth()
-  // const { getConversation } = useChatsApi()
   const { chatId } = useParams()
-  // const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const currChat: ChatInterface | undefined = useAppSelector((state) =>
     selectCurrContact(state, chatId)
   )
-
-  // * Popover
-  // const [isShowSettings, setIsShowSettings] = useState<boolean>(false)
-  // const { nodeRef } = useClickOutSide(() => setIsShowSettings(false))
-  // const { coords, elmRef, handleGetElementCoords } = useGetElementCoords()
-  // const handleToggleSettings = (
-  //   e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  // ) => {
-  //   setIsShowSettings((s) => !s)
-  //   handleGetElementCoords(e)
-  // }
-  // * ####################
 
   if (!currChat) {
     return null // or return a loading/error component
@@ -43,14 +28,21 @@ const ChatHeader = () => {
 
   const chatName = name || otherUserNameInChat.join(', ')
 
-  // const { data: conversation } = data || {}
-
   const handleClickMenu = () => {
     toast.warn('Feature is developing')
   }
 
   return (
     <Box className="flex items-center border-l border-gray-300 dark:border-gray-500 p-3">
+      <div
+        className="flex sm:hidden justify-center items-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full select-none"
+        onClick={() => navigate('/chat')}
+      >
+        <BsArrowLeft
+          size={'1.2rem'}
+          className="text-gray-800 dark:text-gray-200"
+        />
+      </div>
       <div>
         {avatar || (!isGroup && otherMember[0]?.avatar) ? (
           <img
@@ -66,24 +58,10 @@ const ChatHeader = () => {
       </div>
       <Typography className="ml-3 text-lg font-medium">{chatName}</Typography>
       <div className="action ml-auto text-gray-900 dark:text-gray-200">
-        <div
-          // ref={nodeRef}
-          className="relative flex-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full"
-          // onClick={handleToggleSettings}
-        >
-          {/* <div ref={elmRef}> */}
+        <div className="relative flex-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full">
           <div onClick={handleClickMenu}>
             <RxDotsVertical size={'1.2rem'} />
           </div>
-          {/* {isShowSettings && (
-              <Popover
-                coords={coords}
-                position="right"
-                className="bg-white rounded-2xl shadow w-[230px] py-6 px-5"
-              >
-                <SettingsContent></SettingsContent>
-              </Popover>
-            )} */}
         </div>
       </div>
     </Box>

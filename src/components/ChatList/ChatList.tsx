@@ -12,6 +12,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import EditProfiles from './components/EditProfiles'
 import useAuth from '@/hooks/useAuth'
 import Contacts from './components/Contacts'
+import { useParams } from 'react-router-dom'
 
 type MenuPage = 'editProfiles' | 'contacts' | ''
 
@@ -20,6 +21,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   const dispatch = useAppDispatch()
   const contacts = useAppSelector((state) => selectAllContacts(state))
   const [menuPage, setMenuPage] = useState<MenuPage>('')
+  const { chatId } = useParams()
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['chatList'],
@@ -54,8 +56,12 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   if (menuPage !== '') return letMenu[menuPage].element
 
   return (
-    <nav className="flex flex-col w-3/12 text-primary p-3">
-      <div className="py-1 my-1">
+    <nav
+      className={`flex flex-col left-menu-width ${
+        !chatId ? 'tab-active' : ''
+      } text-primary overflow-x-hidden`}
+    >
+      <div className="py-3 my-1">
         <div
           ref={nodeRef}
           className="relative flex-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full select-none"

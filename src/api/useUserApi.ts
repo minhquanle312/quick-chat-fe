@@ -14,24 +14,35 @@ interface UpdateUserBody {
 const useUserApi = () => {
   const axiosPrivate = useAxiosPrivate()
 
-  // const getChatList = async (): Promise<ChatList> => {
-  //   const res = await axiosPrivate.get('/chats/getMyChats')
-  //   return res.data
-  // }
-
   const updateCurrentUser = async (body: UpdateUserBody): Promise<UserData> => {
     const res = await axiosPrivate.patch(
       `/users/updateMe`,
-      JSON.stringify(body),
-      {
-        withCredentials: true,
-      }
+      JSON.stringify(body)
     )
 
     return res.data
   }
 
-  return { updateCurrentUser }
+  const addContact = async (userEmail: string): Promise<UserData> => {
+    try {
+      const res = await axiosPrivate.patch(
+        `/users/addContact`,
+        JSON.stringify({ userEmail })
+      )
+
+      return res.data
+    } catch (error: any) {
+      return Promise.reject(error?.response?.data)
+    }
+  }
+
+  const getCurrentUser = async () => {
+    const res = await axiosPrivate.get(`/users/me`)
+
+    return res.data?.data
+  }
+
+  return { updateCurrentUser, getCurrentUser, addContact }
 }
 
 export default useUserApi

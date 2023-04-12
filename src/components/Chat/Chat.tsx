@@ -24,6 +24,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
   const { chatId } = useParams()
 
   const messageRef = useRef<HTMLInputElement>(null)
+  const latestMessage = useRef<HTMLDivElement>(null)
 
   const [socket, setSocket] = useState<any>()
 
@@ -31,6 +32,10 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
     queryKey: ['chatList', chatId],
     queryFn: () => getConversation(chatId),
   })
+
+  const scrollToBottom = () => {
+    latestMessage.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   useEffect(() => {
     if (data?.data) dispatch(setConversationData(data.data))
@@ -42,6 +47,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
 
     function onReceiveMessage(value: MessageInterface) {
       dispatch(addMessageToConversation(value))
+      // scrollToBottom()
     }
 
     s.on('receive-message', onReceiveMessage)
@@ -57,6 +63,10 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
 
     socket.emit('get-chat-room', chatId)
   }, [socket, chatId])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [conversation])
 
   const handleSendMessage = async () => {
     const message = messageRef?.current?.value
@@ -93,12 +103,15 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
   }
 
   return (
-    <div className="bg-gray-300 dark:bg-gray-500  w-9/12">
+    <>
       {!!error && 'An error has occurred'}
       <ChatHeader />
       <div className="flex flex-col max-w-2xl mx-auto h-chat-content justify-end pb-5">
-        <div className="flex flex-col gap-3 my-5">
-          {isLoading && <Spinner />}
+        <div className="flex flex-col gap-3 my-5 h-full scroll-container">
+          {isLoading && (
+            <Spinner overrideClass="[&>.loader:after]:bg-gray-300 [&>.loader:after]:dark:bg-gray-500" />
+          )}
+
           {conversation?.map((chat: MessageInterface) => (
             <Typography
               key={chat?.id}
@@ -111,6 +124,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
               {chat?.content}
             </Typography>
           ))}
+          <div ref={latestMessage}></div>
         </div>
         <div className="flex items-center gap-2">
           <input
@@ -127,7 +141,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
           </IconButton>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

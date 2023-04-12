@@ -38,7 +38,19 @@ const useChatsApi = () => {
     return res.data
   }
 
-  return { getChatList, getConversation, createNewMessage }
+  const createNewChat = async (members: string[], isGroup?: Boolean) => {
+    try {
+      const res = await axiosPrivate.post(
+        '/chats',
+        JSON.stringify(isGroup ? { isGroup, members } : { members })
+      )
+      return res.data
+    } catch (error: any) {
+      return Promise.reject(error?.response?.data)
+    }
+  }
+
+  return { getChatList, getConversation, createNewMessage, createNewChat }
 }
 
 export default useChatsApi

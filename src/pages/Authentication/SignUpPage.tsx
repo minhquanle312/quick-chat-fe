@@ -6,6 +6,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 interface SignUpPageProps extends React.HTMLAttributes<HTMLFormElement> {
   togglePage: () => void
@@ -36,9 +37,17 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ togglePage }) => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = (data: any) => {
-    signUp(data)
-    navigate('/chat', { replace: true })
+  const onSubmit = async (data: any) => {
+    try {
+      await toast.promise(signUp(data), {
+        pending: 'Sending verify email',
+        error: 'Error',
+        success: 'Sign up success, check your email to active',
+      })
+      navigate('/verify-email')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

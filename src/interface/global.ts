@@ -18,3 +18,12 @@ export interface MessageInterface {
   sendUser?: string
   updatedAt?: string
 }
+
+export interface UserInterface {
+  id: string
+  name: string
+  email: string
+  avatar?: string
+  role: string
+  validatedEmail?: Boolean
+}

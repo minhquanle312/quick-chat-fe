@@ -15,7 +15,9 @@ export const ProtectedLayout = () => {
     <Box className="flex w-full h-full">
       <Box className="flex w-full h-full">
         <ChatList />
-        <Outlet />
+        <div className="bg-gray-300 dark:bg-gray-500  w-9/12">
+          <Outlet />
+        </div>
       </Box>
     </Box>
   )

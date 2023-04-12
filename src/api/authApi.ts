@@ -27,3 +27,9 @@ export const signUp = async (body: SignUpBody) => {
 
   return response.data
 }
+
+export const verifyEmailApi = async (emailToken: string) => {
+  const response = await axios.get(`/users/validateEmail/${emailToken}`)
+
+  return response.data
+}

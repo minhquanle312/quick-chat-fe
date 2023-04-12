@@ -5,20 +5,21 @@ import { useForm } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAuth from '@hooks/useAuth'
-import { BsArrowLeft } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import useUserApi from '@/api/useUserApi'
+import WrapperLeftMenu from './WrapperLeftMenu'
+import { toast } from 'react-toastify'
 
 interface EditProfilesProps extends React.HTMLAttributes<HTMLFormElement> {
-  setEditProfiles: any
+  setMenuPage: any
 }
 
 const schema = yup.object().shape({
   name: yup.string().required('Username is required'),
 })
 
-const EditProfiles: React.FC<EditProfilesProps> = ({ setEditProfiles }) => {
+const EditProfiles: React.FC<EditProfilesProps> = ({ setMenuPage }) => {
   const { userData, updateInfo } = useAuth()
   const { updateCurrentUser } = useUserApi()
   const navigate = useNavigate()
@@ -34,10 +35,17 @@ const EditProfiles: React.FC<EditProfilesProps> = ({ setEditProfiles }) => {
 
   const onSubmit = async (data: any) => {
     try {
-      await updateCurrentUser({
-        name: data.name,
-        avatar: avatar || null,
-      })
+      await toast.promise(
+        updateCurrentUser({
+          name: data.name,
+          avatar: avatar || null,
+        }),
+        {
+          pending: 'Updating your info',
+          error: 'Error',
+          success: 'Your info have been updated',
+        }
+      )
       updateInfo({ name: data.name, avatar: avatar || null })
     } catch (error) {
       console.log(error)
@@ -64,15 +72,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({ setEditProfiles }) => {
   }
 
   return (
-    <div className="flex flex-col w-3/12 text-primary p-3">
-      <div className="py-1 my-1 border-b border-gray-500">
-        <div
-          className="flex justify-center items-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full select-none"
-          onClick={() => setEditProfiles(false)}
-        >
-          <BsArrowLeft size={'1.2rem'} />
-        </div>
-      </div>
+    <WrapperLeftMenu setMenuPage={setMenuPage} title="Edit Profiles">
       <form className="flex flex-col mt-3" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="file"
@@ -105,7 +105,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({ setEditProfiles }) => {
           Submit
         </Button>
       </form>
-    </div>
+    </WrapperLeftMenu>
   )
 }
 

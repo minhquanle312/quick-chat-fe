@@ -1,4 +1,5 @@
-import { Typography } from '@components/common'
+import { UserInterface } from '@/interface/global'
+import { Avatar, Typography } from '@common'
 import useAuth from '@hooks/useAuth'
 import { formatDate } from '@utils/formatDate'
 import React from 'react'
@@ -10,9 +11,7 @@ interface ChatCardProps {
     name?: string
     avatar?: string
     isGroup: Boolean
-    members: [
-      { email: string; id: string; name: string; role: string; avatar?: string }
-    ]
+    members: UserInterface[]
     latestMessage?: { content?: string; updatedAt: string }
   }
 }
@@ -37,7 +36,13 @@ const ChatCard = ({ data }: ChatCardProps) => {
       }
     >
       <div className="flex gap-4">
-        <div>
+        <Avatar
+          isImage={Boolean(avatar || (!isGroup && otherMember[0]?.avatar))}
+          src={isGroup ? avatar : otherMember[0]?.avatar}
+          alt={isGroup ? name : otherMember[0].name}
+          name={chatName}
+        />
+        {/* <div>
           {avatar || (!isGroup && otherMember[0]?.avatar) ? (
             <img
               src={isGroup ? avatar : otherMember[0]?.avatar}
@@ -49,7 +54,7 @@ const ChatCard = ({ data }: ChatCardProps) => {
               {chatName.slice(0, 1)}
             </div>
           )}
-        </div>
+        </div> */}
         <div className="flex-1">
           <div className="flex justify-between">
             <Typography className="font-normal">{chatName}</Typography>

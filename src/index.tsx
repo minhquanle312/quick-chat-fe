@@ -1,8 +1,8 @@
-import { AuthenticationPage, ErrorPage } from '@pages'
+import { AuthenticationPage, ErrorPage, VerifyEmail } from '@pages'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 // import './styles/_index.scss'
 import Chat from '@components/Chat/Chat'
@@ -10,10 +10,11 @@ import { AuthProvider } from '@context/AuthContext'
 import { ProtectedLayout } from '@layouts/ProtectedLayout'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { IconContext } from 'react-icons'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import App from './App'
 import './index.css'
 import { store } from './store/store'
-// import
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <AuthenticationPage /> },
+      { path: 'verify-email', element: <VerifyEmail /> },
+      { path: 'verify-email/:emailToken', element: <VerifyEmail /> },
       {
         path: 'chat',
         element: <ProtectedLayout />,
@@ -51,6 +54,7 @@ root.render(
               <RouterProvider router={router} />
             </IconContext.Provider>
           </AuthProvider>
+          <ToastContainer />
         </QueryClientProvider>
       </Provider>
     </ThemeProvider>

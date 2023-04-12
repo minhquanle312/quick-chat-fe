@@ -10,7 +10,10 @@ const IconButton: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   ...props
 }) => {
   return (
-    <button className={`flex-center rounded-full p-2 ${className}`} {...props}>
+    <button
+      className={`flex-center rounded-full p-2 ${className || ''}`}
+      {...props}
+    >
       {children}
     </button>
   )

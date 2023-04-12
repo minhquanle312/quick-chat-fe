@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAuth from '@hooks/useAuth'
+import { toast } from 'react-toastify'
 
 interface LoginPageProps extends React.HTMLAttributes<HTMLFormElement> {
   togglePage: () => void
@@ -30,7 +31,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
   })
 
   const onSubmit = (data: any) => {
-    login(data)
+    toast.promise(login(data), {
+      pending: 'Loading',
+      success: 'Login success',
+      error: {
+        render({ data }: any) {
+          return typeof data.message === 'string' && data.message
+            ? data.message
+            : 'An unexpected error'
+        },
+      },
+    })
   }
 
   return (

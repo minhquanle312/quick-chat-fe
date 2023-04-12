@@ -5,6 +5,7 @@ import {
   SignUpBody,
   login as loginApi,
   signUp as signUpApi,
+  verifyEmailApi,
 } from '@api/authApi'
 
 interface UserData {
@@ -23,8 +24,9 @@ interface UpdateInfoData {
 interface AuthContextType {
   userData: UserData | null
   accessToken: string | null
-  login: (data: LoginBody) => void
-  signUp: (data: SignUpBody) => void
+  login: (data: LoginBody) => Promise<void>
+  signUp: (data: SignUpBody) => Promise<void>
+  verifyEmail: (emailToken: string) => Promise<void>
   logout: () => void
   updateInfo: (data: UpdateInfoData) => void
 }
@@ -34,8 +36,9 @@ export const AuthContext = createContext<AuthContextType>({
   accessToken: null,
   // setUserData: () => {},
   // setAccessToken: () => {},
-  login: () => {},
-  signUp: () => {},
+  login: async () => {},
+  signUp: async () => {},
+  verifyEmail: async () => {},
   logout: () => {},
   updateInfo: () => {},
 })
@@ -58,14 +61,22 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
       const { email, id, name, role, avatar } = res.data.user
       setUserData({ name, id, role, email, avatar })
       setAccessToken(res.token)
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      return Promise.reject(error?.response?.data || error)
     }
   }
 
   const signUp = async (data: SignUpBody): Promise<void> => {
     try {
-      const res = await signUpApi(data)
+      await signUpApi(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const verifyEmail = async (emailToken: string): Promise<void> => {
+    try {
+      const res = await verifyEmailApi(emailToken)
       const { email, id, name, role, avatar } = res.data.user
       setUserData({ name, id, role, email, avatar })
       setAccessToken(res.token)
@@ -96,6 +107,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     accessToken,
     login,
     signUp,
+    verifyEmail,
     logout,
     updateInfo,
   }

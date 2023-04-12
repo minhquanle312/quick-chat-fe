@@ -1,6 +1,6 @@
 import useChatsApi from '@api/useChatsApi'
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatCard from './ChatCard'
 import { Spinner } from '@common'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -11,19 +11,33 @@ import { Popover } from '@common'
 import { AiOutlineMenu } from 'react-icons/ai'
 import EditProfiles from './components/EditProfiles'
 import useAuth from '@/hooks/useAuth'
+import Contacts from './components/Contacts'
+
+type MenuPage = 'editProfiles' | 'contacts' | ''
 
 const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   const { getChatList } = useChatsApi()
   const dispatch = useAppDispatch()
   const contacts = useAppSelector((state) => selectAllContacts(state))
-  // const [settings, setSettings] = useState(false)
-  const [editProfiles, setEditProfiles] = useState(false)
+  const [menuPage, setMenuPage] = useState<MenuPage>('')
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['chatList'],
-    queryFn: () =>
-      getChatList().then((result) => dispatch(setContactsData(result.data))),
+    queryFn: () => getChatList(),
   })
+
+  const letMenu = {
+    editProfiles: {
+      element: <EditProfiles setMenuPage={setMenuPage} />,
+    },
+    contacts: {
+      element: <Contacts setMenuPage={setMenuPage} />,
+    },
+  }
+
+  useEffect(() => {
+    if (data?.data) dispatch(setContactsData(data.data))
+  }, [data]) // eslint-disable-line
 
   // * Popover
   const [isShowSettings, setIsShowSettings] = useState<boolean>(false)
@@ -37,17 +51,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   }
   // * ####################
 
-  if (editProfiles) return <EditProfiles setEditProfiles={setEditProfiles} />
-  // return (
-  //   <div className="flex flex-col w-3/12 text-primary p-3">
-  //     <div className="py-1 my-1">
-  //       <div onClick={() => setEditProfiles(false)}>
-  //         <BsArrowLeft size={'1.2rem'} />
-  //       </div>
-  //     </div>
-  //     <div className="flex flex-col"></div>
-  //   </div>
-  // )
+  if (menuPage !== '') return letMenu[menuPage].element
 
   return (
     <nav className="flex flex-col w-3/12 text-primary p-3">
@@ -66,12 +70,12 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
               position="left"
               className="bg-gray-300 dark:bg-gray-700 rounded-md shadow w-[230px] p-2"
             >
-              <SettingsContent setEditProfiles={setEditProfiles} />
+              <SettingsContent setMenuPage={setMenuPage} />
             </Popover>
           )}
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full scroll-container">
         {isLoading && <Spinner />}
         {!!error && 'An error has occurred'}
         {data &&
@@ -81,31 +85,27 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   )
 }
 
-function SettingsContent({ setEditProfiles }: any) {
+function SettingsContent({ setMenuPage }: any) {
   const { logout } = useAuth()
   return (
     <>
       <div className="flex flex-col">
-        {/* <p
-          onClick={() => {
-            setSettings(true)
-          }}
-          className="font-medium p-0.5 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
-        >
-          Settings
-        </p> */}
         <p
-          onClick={() => {
-            setEditProfiles(true)
-          }}
+          onClick={() => setMenuPage('editProfiles')}
           className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
         >
           Edit Profiles
         </p>
         <p
           onClick={() => {
-            logout()
+            setMenuPage('contacts')
           }}
+          className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
+        >
+          Contacts
+        </p>
+        <p
+          onClick={() => logout()}
           className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
         >
           Logout

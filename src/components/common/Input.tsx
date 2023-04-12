@@ -40,7 +40,7 @@ const Input = ({
     <div className={`flex flex-col ${className || ''}`}>
       <label
         htmlFor={name}
-        className={`${error ? 'text-red-600' : 'text-primary'}`}
+        className={`${error ? 'text-red-600' : 'text-primary'} mb-1`}
       >
         {label}
       </label>

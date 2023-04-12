@@ -12,7 +12,7 @@ export default function useClickOutSide(callback?: () => void) {
     return () => {
       document.removeEventListener('click', handleClickOutSide)
     }
-  }, [])
+  }, []) // eslint-disable-line
   return {
     nodeRef,
   }

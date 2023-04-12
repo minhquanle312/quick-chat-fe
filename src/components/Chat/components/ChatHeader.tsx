@@ -5,6 +5,7 @@ import { useAppSelector } from '@/store/hooks'
 import { Box, Typography } from '@common'
 import { RxDotsVertical } from 'react-icons/rx'
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 // import useClickOutSide from '@/hooks/useClickOutSide'
 // import useGetElementCoords from '@/hooks/useGetElementCoords'
 // import Popover from '../common/Popover'
@@ -44,6 +45,10 @@ const ChatHeader = () => {
 
   // const { data: conversation } = data || {}
 
+  const handleClickMenu = () => {
+    toast.warn('Feature is developing')
+  }
+
   return (
     <Box className="flex items-center border-l border-gray-300 dark:border-gray-500 p-3">
       <div>
@@ -67,7 +72,7 @@ const ChatHeader = () => {
           // onClick={handleToggleSettings}
         >
           {/* <div ref={elmRef}> */}
-          <div>
+          <div onClick={handleClickMenu}>
             <RxDotsVertical size={'1.2rem'} />
           </div>
           {/* {isShowSettings && (

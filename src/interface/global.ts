@@ -3,9 +3,7 @@ export interface ChatInterface {
   name?: string
   avatar?: string
   isGroup: Boolean
-  members: [
-    { email: string; id: string; name: string; role: string; avatar?: string }
-  ]
+  members: UserInterface[]
   latestMessage?: { content?: string; updatedAt: string }
 }
 

@@ -51,7 +51,22 @@ const useChatsApi = () => {
     }
   }
 
-  return { getChatList, getConversation, createNewMessage, createNewChat }
+  const deleteChatApi = async (chatId: string) => {
+    try {
+      const res = await axiosPrivate.delete(`/chats/${chatId}`)
+      return res.data
+    } catch (error) {
+      return handleAxiosError(error)
+    }
+  }
+
+  return {
+    getChatList,
+    getConversation,
+    createNewMessage,
+    createNewChat,
+    deleteChatApi,
+  }
 }
 
 export default useChatsApi

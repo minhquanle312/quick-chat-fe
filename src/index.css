@@ -8,6 +8,17 @@
   .text-primary {
     @apply text-gray-950 dark:text-gray-100;
   }
+  .base-popover {
+    @apply absolute z-10 bg-slate-200 dark:bg-slate-700 rounded-lg p-3;
+  }
+  .popover-selection {
+    @apply px-2 py-1 rounded-sm cursor-pointer select-none;
+  }
+
+  .base-button {
+    @apply text-base uppercase text-gray-100 dark:text-gray-800 flex justify-center items-center bg-blue-600 dark:bg-blue-300 border-none cursor-pointer rounded-md py-1 px-2;
+  }
+
   .flex-center {
     @apply flex justify-center items-center;
   }

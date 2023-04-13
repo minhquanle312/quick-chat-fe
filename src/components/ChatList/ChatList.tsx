@@ -1,5 +1,6 @@
 import useAuth from '@/hooks/useAuth'
 import useGetCoords from '@/hooks/useGetCoords'
+import useTheme from '@/hooks/useTheme'
 import { selectAllContacts, setContactsData } from '@/reducers/contactsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import useChatsApi from '@api/useChatsApi'
@@ -7,18 +8,17 @@ import { Popover, Spinner, Toggle } from '@common'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import ChatCard from './ChatCard'
 import Contacts from './components/Contacts'
 import EditProfiles from './components/EditProfiles'
-import useTheme from '@/hooks/useTheme'
 
 type MenuPage = 'editProfiles' | 'contacts' | ''
 
 const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   const { getChatList } = useChatsApi()
   const dispatch = useAppDispatch()
-  const contacts = useAppSelector((state) => selectAllContacts(state))
+  const chatsList = useAppSelector((state) => selectAllContacts(state))
   const [menuPage, setMenuPage] = useState<MenuPage>('')
   const { chatId } = useParams()
 
@@ -53,6 +53,9 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
         !chatId ? 'tab-active' : ''
       } text-primary overflow-x-hidden`}
     >
+      {chatsList.length > 0 && !chatId && (
+        <Navigate to={`/chat/${chatsList[0].id}`} />
+      )}
       <div className="py-3 my-1">
         <div
           ref={buttonRef}
@@ -69,7 +72,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
         {!!error && 'An error has occurred'}
 
         {data &&
-          contacts?.map((chat: any) => <ChatCard key={chat.id} data={chat} />)}
+          chatsList?.map((chat: any) => <ChatCard key={chat.id} data={chat} />)}
       </div>
       <Popover
         open={isShowSettings}
@@ -77,47 +80,55 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
         coords={buttonCoords}
         className="bg-gray-300 dark:bg-gray-700 rounded-md shadow w-[230px] p-2"
       >
-        <SettingsContent setMenuPage={setMenuPage} />
+        <SettingsContent
+          setMenuPage={setMenuPage}
+          onClose={() => setIsShowSettings(false)}
+        />
       </Popover>
     </nav>
   )
 }
 
-function SettingsContent({ setMenuPage }: any) {
+function SettingsContent({ setMenuPage, onClose }: any) {
   const { theme, toggleTheme } = useTheme()
 
   const { logout } = useAuth()
+
+  const textMenu = [
+    {
+      text: 'Edit Profiles',
+      onClick: () => setMenuPage('editProfiles'),
+    },
+    {
+      text: 'Contacts',
+      onClick: () => setMenuPage('contacts'),
+    },
+    {
+      text: 'Logout',
+      onClick: () => logout(),
+    },
+  ]
   return (
-    <>
-      <div className="flex flex-col">
-        <div
-          onClick={(e) => toggleTheme()}
-          className="flex items-center select-none justify-between font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
-        >
-          <p>Dark mode</p> <Toggle checked={theme === 'dark'} />
-        </div>
-        <p
-          onClick={() => setMenuPage('editProfiles')}
-          className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
-        >
-          Edit Profiles
-        </p>
-        <p
-          onClick={() => {
-            setMenuPage('contacts')
-          }}
-          className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
-        >
-          Contacts
-        </p>
-        <p
-          onClick={() => logout()}
-          className="font-medium px-2 py-1 rounded-sm text-gray-900 dark:text-gray-200 block cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600"
-        >
-          Logout
-        </p>
+    <div className="flex flex-col">
+      <div
+        onClick={(e) => toggleTheme()}
+        className="popover-selection flex items-center justify-between font-medium text-gray-900 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600"
+      >
+        <p>Dark mode</p> <Toggle checked={theme === 'dark'} />
       </div>
-    </>
+      {textMenu.map((item, index) => (
+        <p
+          key={index}
+          onClick={() => {
+            onClose()
+            item.onClick()
+          }}
+          className="popover-selection font-medium text-gray-900 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600"
+        >
+          {item.text}
+        </p>
+      ))}
+    </div>
   )
 }
 

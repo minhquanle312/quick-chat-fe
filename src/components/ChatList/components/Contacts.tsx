@@ -6,8 +6,8 @@ import { Avatar, IconButton, Spinner, Typography } from '@common'
 import { toast } from 'react-toastify'
 import { UserInterface } from '@/interface/global'
 import { BiPlus } from 'react-icons/bi'
-import { useAppSelector } from '@/store/hooks'
-import { selectAllContacts } from '@/reducers/contactsSlice'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { addNewChat, selectAllContacts } from '@/reducers/contactsSlice'
 import AddContactModal from './AddContactModal'
 import useChatsApi from '@/api/useChatsApi'
 // import { isEqual } from 'lodash'
@@ -22,6 +22,7 @@ const Contacts = ({ setMenuPage }: ContactsProps) => {
   const navigate = useNavigate()
   const { getCurrentUser } = useUserApi()
   const { createNewChat } = useChatsApi()
+  const dispatch = useAppDispatch()
   const currentChatsList = useAppSelector((state) => selectAllContacts(state))
 
   const {
@@ -72,6 +73,9 @@ const Contacts = ({ setMenuPage }: ContactsProps) => {
         },
       })
       .then((res) => {
+        res.data.members = [contactInfo, userInfo]
+        dispatch(addNewChat(res.data))
+        setMenuPage('')
         navigate(`/chat/${res.data.id}`)
       })
   }

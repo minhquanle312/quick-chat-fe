@@ -11,10 +11,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   ...props
 }) => {
   return (
-    <button
-      className={`text-base uppercase text-gray-100 dark:text-gray-800 flex justify-center items-center bg-blue-600 dark:bg-blue-300 border-none cursor-pointer rounded-md py-1 px-2 ${className}`}
-      {...props}
-    >
+    <button className={`base-button ${className || ''}`} {...props}>
       {children}
     </button>
   )

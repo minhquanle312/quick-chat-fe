@@ -12,6 +12,7 @@ import { Navigate, useParams } from 'react-router-dom'
 import ChatCard from './ChatCard'
 import Contacts from './components/Contacts'
 import EditProfiles from './components/EditProfiles'
+import useResize from '@/hooks/useResize'
 
 type MenuPage = 'editProfiles' | 'contacts' | ''
 
@@ -21,6 +22,8 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   const chatsList = useAppSelector((state) => selectAllContacts(state))
   const [menuPage, setMenuPage] = useState<MenuPage>('')
   const { chatId } = useParams()
+
+  const windowWidth = useResize()
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['chatList'],
@@ -53,7 +56,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
         !chatId ? 'tab-active' : ''
       } text-primary overflow-x-hidden`}
     >
-      {chatsList.length > 0 && !chatId && (
+      {chatsList.length > 0 && !chatId && windowWidth > 640 && (
         <Navigate to={`/chat/${chatsList[0].id}`} />
       )}
       <div className="py-3 my-1">

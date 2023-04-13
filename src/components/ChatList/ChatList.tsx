@@ -45,8 +45,11 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
 
   // * Popover
   const [isShowSettings, setIsShowSettings] = useState<boolean>(false)
-  const buttonRef: any = useRef()
-  const buttonCoords = useGetCoords(buttonRef)
+  const buttonRef = useRef<HTMLDivElement>(null)
+
+  const buttonCoords = useGetCoords(
+    buttonRef || document.querySelector('#menu-button-ref')
+  )
 
   if (menuPage !== '') return letMenu[menuPage].element
 
@@ -62,6 +65,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
       <div className="py-3 my-1">
         <div
           ref={buttonRef}
+          id="menu-button-ref"
           className="relative flex-center w-10 h-10 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer rounded-full select-none"
           onClick={() => setIsShowSettings(true)}
         >

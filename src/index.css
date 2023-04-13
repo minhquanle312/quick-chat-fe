@@ -5,6 +5,11 @@
 @tailwind utilities;
 
 @layer components {
+  .app-height {
+    height: 100dvh;
+    /* max-height: -webkit-fill-available; */
+  }
+
   .text-primary {
     @apply text-gray-950 dark:text-gray-100;
   }

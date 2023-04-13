@@ -11,7 +11,8 @@ const App: React.FC<React.ComponentProps<'div'>> = () => {
 
   return (
     <Box
-      className={`flex justify-center items-center h-screen min-h-screen relative`}
+      // className={`flex justify-center items-center h-screen min-h-screen relative`}
+      className={`flex justify-center items-center app-height relative`}
     >
       <Outlet />
       {!userData && (

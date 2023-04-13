@@ -5,7 +5,8 @@ const ErrorPage = () => {
   const error = useRouteError()
 
   return (
-    <Box className="flex justify-center items-center min-h-screen text-primary">
+    <Box className="flex justify-center items-center app-height text-primary">
+      {/* <Box className="flex justify-center items-center min-h-screen text-primary"> */}
       {isRouteErrorResponse(error) ? (
         <Box id="error-page">
           <h1>Oops! {error.status}</h1>

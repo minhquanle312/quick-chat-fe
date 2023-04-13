@@ -112,7 +112,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
     <>
       {!!error && 'An error has occurred'}
       <ChatHeader />
-      <div className="flex flex-col max-w-2xl mx-auto h-chat-content justify-end pb-5 px-2 sm:pl-0">
+      <div className="flex flex-col max-w-2xl mx-auto h-chat-content justify-end pb-5 px-2">
         <div className="flex flex-col gap-3 my-5 h-full scroll-container">
           {isLoading && (
             <Spinner overrideClass="[&>.loader:after]:bg-gray-300 [&>.loader:after]:dark:bg-gray-500" />
@@ -123,7 +123,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
           ))}
           <div ref={latestMessage}></div>
         </div>
-        <div className="flex items-center gap-2 pr-2 sm:pr-0">
+        <div className="flex items-center gap-2 pr-2">
           <input
             ref={messageRef}
             type="text"

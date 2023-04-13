@@ -1,5 +1,5 @@
 // import useAxiosPrivate from '@hooks/useAxiosPrivate'
-import { axiosPrivate } from './axios'
+import { axiosPrivate, handleAxiosError } from './axios'
 
 type ChatList = {
   data: []
@@ -46,8 +46,8 @@ const useChatsApi = () => {
         JSON.stringify(isGroup ? { isGroup, members } : { members })
       )
       return res.data
-    } catch (error: any) {
-      return Promise.reject(error?.response?.data)
+    } catch (error) {
+      return handleAxiosError(error)
     }
   }
 

@@ -6,6 +6,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAuth from '@hooks/useAuth'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 interface LoginPageProps extends React.HTMLAttributes<HTMLFormElement> {
   togglePage: () => void
@@ -60,9 +61,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
         error={errors.password?.message as string | undefined}
       />
       <Box className="flex flex-col sm:flex-row justify-between text-sm ">
-        <Typography className="text-blue-600 dark:text-blue-400 underline cursor-pointer select-none">
-          Forgot password?
-        </Typography>
+        <Link to="/forgot-password">
+          <Typography className="text-blue-600 dark:text-blue-400 underline cursor-pointer select-none">
+            Forgot password?
+          </Typography>
+        </Link>
         <Typography
           className="text-blue-600 dark:text-blue-400 underline cursor-pointer select-none"
           onClick={togglePage}
@@ -71,7 +74,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
         </Typography>
       </Box>
       <Button type="submit" className="py-2">
-        Submit
+        Login
       </Button>
     </form>
   )

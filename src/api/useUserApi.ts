@@ -1,5 +1,5 @@
 // import useAxiosPrivate from '@hooks/useAxiosPrivate'
-import { axiosPrivate } from './axios'
+import { axiosPrivate, handleAxiosError } from './axios'
 
 type UserData = {
   data: []
@@ -24,7 +24,7 @@ const useUserApi = () => {
     return res.data
   }
 
-  const addContact = async (userEmail: string): Promise<UserData> => {
+  const addContact = async (userEmail: string): Promise<UserData | any> => {
     try {
       const res = await axiosPrivate.patch(
         `/users/addContact`,
@@ -32,8 +32,8 @@ const useUserApi = () => {
       )
 
       return res.data
-    } catch (error: any) {
-      return Promise.reject(error?.response?.data)
+    } catch (error) {
+      return handleAxiosError(error)
     }
   }
 

@@ -1,4 +1,10 @@
-import { AuthenticationPage, ErrorPage, VerifyEmail } from '@pages'
+import {
+  AuthenticationPage,
+  ErrorPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  VerifyEmail,
+} from '@pages'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
@@ -27,6 +33,8 @@ const router = createBrowserRouter([
       { index: true, element: <AuthenticationPage /> },
       { path: 'verify-email', element: <VerifyEmail /> },
       { path: 'verify-email/:emailToken', element: <VerifyEmail /> },
+      { path: 'forgot-password', element: <ForgotPasswordPage /> },
+      { path: 'reset-password/:resetToken', element: <ResetPasswordPage /> },
       {
         path: 'chat',
         element: <ProtectedLayout />,

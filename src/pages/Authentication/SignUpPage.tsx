@@ -84,7 +84,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ togglePage }) => {
       >
         Already have an account? Login
       </Typography>
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Sign Up</Button>
     </form>
   )
 }

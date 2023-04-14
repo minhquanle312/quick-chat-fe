@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { UserInterface } from '@/interface/global'
 import { BiPlus } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { addNewChat, selectAllContacts } from '@/reducers/contactsSlice'
+import { addNewChat, selectAllChats } from '@/reducers/chatsSlice'
 import AddContactModal from './AddContactModal'
 import useChatsApi from '@/api/useChatsApi'
 // import { isEqual } from 'lodash'
@@ -23,7 +23,7 @@ const Contacts = ({ setMenuPage }: ContactsProps) => {
   const { getCurrentUser } = useUserApi()
   const { createNewChat } = useChatsApi()
   const dispatch = useAppDispatch()
-  const currentChatsList = useAppSelector((state) => selectAllContacts(state))
+  const currentChatsList = useAppSelector((state) => selectAllChats(state))
 
   const {
     isLoading,

@@ -16,7 +16,7 @@ import {
 } from '@/reducers/conversationSlice'
 import { ChatInterface, MessageInterface } from '@/interface/global'
 import MessageCard from './components/MessageCard'
-import { selectCurrContact } from '@/reducers/contactsSlice'
+import { selectCurrChat } from '@/reducers/chatsSlice'
 
 const Chat: React.FC<React.ComponentProps<'div'>> = () => {
   const { chatId } = useParams()
@@ -24,7 +24,7 @@ const Chat: React.FC<React.ComponentProps<'div'>> = () => {
   const dispatch = useAppDispatch()
   const conversation = useAppSelector((state) => selectConversation(state))
   const currChat: ChatInterface | undefined = useAppSelector((state) =>
-    selectCurrContact(state, chatId)
+    selectCurrChat(state, chatId)
   )
 
   const { getConversation, createNewMessage } = useChatsApi()

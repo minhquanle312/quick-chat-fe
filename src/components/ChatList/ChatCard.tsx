@@ -9,7 +9,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import useChatsApi from '@/api/useChatsApi'
 import { toast } from 'react-toastify'
 import { useAppDispatch } from '@/store/hooks'
-import { deleteChat } from '@/reducers/contactsSlice'
+import { deleteChat } from '@/reducers/chatsSlice'
 
 interface ChatCardProps {
   data: {
@@ -39,6 +39,8 @@ const ChatCard = ({ data }: ChatCardProps) => {
   const otherUserNameInChat = otherMember.map((user) => user.name)
 
   const chatName = name || otherUserNameInChat.join(', ')
+
+  console.log(data)
 
   const handleDeleteChat = () => {
     toast
@@ -76,7 +78,7 @@ const ChatCard = ({ data }: ChatCardProps) => {
         <Avatar
           isImage={Boolean(avatar || (!isGroup && otherMember[0]?.avatar))}
           src={isGroup ? avatar : otherMember[0]?.avatar}
-          alt={isGroup ? name : otherMember[0].name}
+          alt={isGroup ? name : otherMember[0]?.name}
           name={chatName}
         />
         <div className="flex-1">

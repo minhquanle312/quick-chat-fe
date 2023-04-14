@@ -1,6 +1,6 @@
 import useAuth from '@/hooks/useAuth'
 import { ChatInterface } from '@/interface/global'
-import { selectCurrContact } from '@/reducers/contactsSlice'
+import { selectCurrChat } from '@/reducers/chatsSlice'
 import { useAppSelector } from '@/store/hooks'
 import { Box, Typography } from '@common'
 import { RxDotsVertical } from 'react-icons/rx'
@@ -13,7 +13,7 @@ const ChatHeader = () => {
   const { chatId } = useParams()
   const navigate = useNavigate()
   const currChat: ChatInterface | undefined = useAppSelector((state) =>
-    selectCurrContact(state, chatId)
+    selectCurrChat(state, chatId)
   )
 
   if (!currChat) {

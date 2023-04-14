@@ -1,7 +1,7 @@
 import useAuth from '@/hooks/useAuth'
 import useGetCoords from '@/hooks/useGetCoords'
 import useTheme from '@/hooks/useTheme'
-import { selectAllContacts, setContactsData } from '@/reducers/contactsSlice'
+import { selectAllChats, setChatsData } from '@/reducers/chatsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import useChatsApi from '@api/useChatsApi'
 import { Popover, Spinner, Toggle } from '@common'
@@ -19,7 +19,7 @@ type MenuPage = 'editProfiles' | 'contacts' | ''
 const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   const { getChatList } = useChatsApi()
   const dispatch = useAppDispatch()
-  const chatsList = useAppSelector((state) => selectAllContacts(state))
+  const chatsList = useAppSelector((state) => selectAllChats(state))
   const [menuPage, setMenuPage] = useState<MenuPage>('')
   const { chatId } = useParams()
 
@@ -40,7 +40,7 @@ const ChatList: React.FC<React.ComponentProps<'div'>> = () => {
   }
 
   useEffect(() => {
-    if (data?.data) dispatch(setContactsData(data.data))
+    if (data?.data) dispatch(setChatsData(data.data))
   }, [data]) // eslint-disable-line
 
   // * Popover

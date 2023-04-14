@@ -7,6 +7,9 @@ import {
   signUp as signUpApi,
   verifyEmailApi,
 } from '@api/authApi'
+import { useAppDispatch } from '@/store/hooks'
+import { setChatsData } from '@/reducers/chatsSlice'
+import { setConversationData } from '@/reducers/conversationSlice'
 
 interface UserData {
   email: string
@@ -44,6 +47,7 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
+  const dispatch = useAppDispatch()
   const [userData, setUserData] = useLocalStorage<UserData | null>(
     'userData',
     null
@@ -85,6 +89,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const logout = () => {
     setUserData(null)
+    dispatch(setChatsData([]))
+    dispatch(setConversationData([]))
     // setAccessToken(null)
   }
 

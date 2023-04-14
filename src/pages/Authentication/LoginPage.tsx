@@ -76,6 +76,21 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
       <Button type="submit" className="py-2">
         Login
       </Button>
+      <Typography>
+        If this is first time you use this web, can be take too long for first
+        request because free server suspense when no action in long time
+      </Typography>
+      <Typography>
+        Please sign up with your real email (valid and existed email) because
+        verify token with send to your mail (I use nodemailer + Gmail)
+      </Typography>
+      <span className="text-red-500">
+        Sorry for your bad experience when use website because UI in developing
+        process (but all authentication feature work well in this version)
+      </span>
+      <Typography>Or you can use test email below:</Typography>
+      <Typography>user3@gmail.com (pass: 12345678)</Typography>
+      <Typography>user4@gmail.com (pass: 12345678)</Typography>
     </form>
   )
 }

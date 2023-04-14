@@ -89,8 +89,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
         process (but all authentication feature work well in this version)
       </span>
       <Typography>Or you can use test email below:</Typography>
-      <Typography>user3@gmail.com (pass: 12345678)</Typography>
-      <Typography>user4@gmail.com (pass: 12345678)</Typography>
+      <Typography>user3@example.com (pass: 12345678)</Typography>
+      <Typography>user4@example.com (pass: 12345678)</Typography>
     </form>
   )
 }

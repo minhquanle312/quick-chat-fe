@@ -85,8 +85,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ togglePage }) => {
         verify token with send to your mail (I use nodemailer + Gmail)
       </Typography>
       <span className="text-red-500">
-        Sorry for your bad experience when use website because UI in developing
-        process (but all authentication feature work well in this version)
+        Sorry for your bad experience when using website because UI and some
+        features in developing process (but all authentication feature work well
+        in this version)
       </span>
       <Typography>Or you can use test email below:</Typography>
       <Typography>user3@example.com (pass: 12345678)</Typography>
